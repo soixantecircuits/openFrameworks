@@ -5,7 +5,7 @@ script: "./scripts/linux/ubuntu/install_dependencies.sh"
 
 branches:
    only:
-     - master
+     - travis
 notifications:
   recipients:
     - gabriel@soixantecircuits.fr
