@@ -75,7 +75,9 @@ bool ofGstVideoPlayer::loadMovie(string name){
 		break;
 	}
 
-	GstCaps *caps = gst_caps_new_simple(mime.c_str(),
+	GstCaps *caps;
+  if (internalPixelFormat!= OF_PIXELS_BGRA){
+    caps = gst_caps_new_simple(mime.c_str(),
 										"bpp", G_TYPE_INT, bpp,
 										"depth", G_TYPE_INT, 24,
 										"endianness",G_TYPE_INT,4321,
@@ -83,9 +85,23 @@ bool ofGstVideoPlayer::loadMovie(string name){
 										"green_mask",G_TYPE_INT,0x00ff00,
 										"blue_mask",G_TYPE_INT,0x0000ff,
 										"alpha_mask",G_TYPE_INT,0x000000ff,
-
+                    
 
 										NULL);
+  }else{
+    caps = gst_caps_new_simple(mime.c_str(),
+										"bpp", G_TYPE_INT, bpp,
+										"depth", G_TYPE_INT, 24,
+										"endianness",G_TYPE_INT,4321,
+										"red_mask",G_TYPE_INT,0xff000000,
+										"green_mask",G_TYPE_INT,0x00ff0000,
+										"blue_mask",G_TYPE_INT,0x0000ff00,
+										"alpha_mask",G_TYPE_INT,0x000000ff,
+                    
+
+										NULL);
+  }
+
 	gst_app_sink_set_caps(GST_APP_SINK(gstSink), caps);
 	gst_caps_unref(caps);
 
